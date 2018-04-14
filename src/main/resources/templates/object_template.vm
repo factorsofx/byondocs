@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>$obj_type.name - ByonDoc</title>
+
+    <style type="text/css">
+        li.alternating:nth-of-type(odd) > div
+        {
+            background-color: #e0e0e0;
+        }
+
+        .child-link + .child-link::before
+        {
+            content: ' | ';
+            padding: 0 10px;
+        }
+
+        .var-separator::before
+        {
+            content: ' - ';
+            padding: 0 10px;
+        }
+
+        .var-header
+        {
+            display: inline;
+        }
+
+        .var-val
+        {
+            font-family: monospace;
+            color: orangered;
+        }
+
+        .var-flags
+        {
+            font-family: monospace;
+        }
+
+        .var-list
+        {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+#parse("header.vm")
+
+<nav>
+    <ol class="breadcrumb">
+        #foreach($crumb in $nav_breadcrumb)
+            <li class="breadcrumb-item"><a href="$crumb.url">$crumb.name</a></li>
+        #end
+        <li class="breadcrumb-item active">$obj_type.name</li>
+    </ol>
+</nav>
+
+<div class="container-fluid">
+    <h2>$obj_type.name</h2>
+    <p><span style="font-style: italic">$obj_type.doc</span></p>
+</div>
+
+<!-- Vars -->
+<div class="container-fluid" id="vars">
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="display: inline-block">Vars</h4>
+                <a class="float-right" data-toggle="collapse" href="#varscollapse">Toggle close</a>
+            </div>
+            <div id="varscollapse" class="panel-collapse collapse show">
+                <ul class="var-list">
+                    #foreach($var in $obj_type.vars.entrySet())
+                        <li class="alternating">
+                            <div class="border rounded">
+                                <div class="var-header">
+                                    <span class="var-name">$var.value.name</span>
+                                    #if($var.value.flagstring && !$var.value.flagstring.empty)
+                                        <span class="var-separator"></span>
+                                        <span class="var-flags">$var.value.flagstring</span>
+                                    #end
+                                    #if($var.value.type && !$var.value.type.empty)
+                                        <span class="var-separator"></span>
+                                        <span class="var-type">$var.value.type</span>
+                                    #end
+                                    #if($var.value.value && !$var.value.value.empty)
+                                        <span class="var-separator"></span>
+                                        <span class="var-val">$var.value.value</span>
+                                    #end
+                                </div>
+                            </div>
+                        </li>
+                    #end
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Procs -->
+<div class="container-fluid" id="procs">
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="display: inline-block">Procs</h4>
+                <a class="float-right" data-toggle="collapse" href="#procscollapse">Toggle close</a>
+            </div>
+            <div id="procscollapse" class="panel-collapse collapse show">
+                <ul>
+                    #foreach($proc in $obj_type.procs)
+                        <li class="alternating">
+                            <div class="border rounded">
+                                <h6>$proc.name</h6>
+                                <div class="docs">$proc.docs</div>
+                            </div>
+                        </li>
+                    #end
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid" id="children">
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="display: inline-block">Children</h4>
+                <a class="float-right" data-toggle="collapse" href="#childrencollapse">Toggle close</a>
+            </div>
+            <div id="child-link-container childrencollapse" class="panel-collapse collapse show">
+                #foreach($child in $obj_type.children)
+                    <span class="child-link"><a href="${obj_type.name}/${child.name}.html">$child.name</a></span>
+                #end
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Load libs last -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
