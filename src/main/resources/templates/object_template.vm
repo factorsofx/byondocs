@@ -114,11 +114,11 @@
             </div>
             <div id="procscollapse" class="panel-collapse collapse show">
                 <ul>
-                    #foreach($proc in $obj_type.procs)
+                    #foreach($proc in $obj_type.procs.values())
                         <li class="alternating">
                             <div class="border rounded">
-                                <h6>$proc.name</h6>
-                                <div class="docs">$proc.docs</div>
+                                <h6>$proc.name ( $proc.argString )</h6>
+                                <div class="docs">$proc.doc</div>
                             </div>
                         </li>
                     #end
@@ -135,7 +135,7 @@
                 <h4 class="panel-title" style="display: inline-block">Children</h4>
                 <a class="float-right" data-toggle="collapse" href="#childrencollapse">Toggle close</a>
             </div>
-            <div id="child-link-container childrencollapse" class="panel-collapse collapse show">
+            <div id="childrencollapse" class="panel-collapse collapse show">
                 #foreach($child in $obj_type.children)
                     <span class="child-link"><a href="${obj_type.name}/${child.name}.html">$child.name</a></span>
                 #end

@@ -127,7 +127,13 @@ public class ByonDoc
             Context context = toolManager.createContext();
             context.put("dme_name", dmeName);
             context.put("obj_type", node);
-            context.put("nav_breadcrumb", node.getParentsInOrder().stream().map((parentNode) -> Map.of("url", "/" + parentNode.toString() + ".html", "name", parentNode.getName())).collect(Collectors.toList()));
+            context.put("nav_breadcrumb", node.getParentsInOrder().stream().map((parentNode) ->
+            {
+                Map<String, Object> model = new HashMap<>();
+                model.put("url", "/" + parentNode.toString() + ".html");
+                model.put("name", parentNode.getName());
+                return model;
+            }).collect(Collectors.toList()));
 
             template.merge(context, typePageWriter);
             typePageWriter.close();

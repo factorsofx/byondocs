@@ -14,6 +14,7 @@ public class ObjectNode implements Comparable<ObjectNode>
     private String doc;
 
     private Map<String, Var> vars = new HashMap<>();
+    private Map<String, Proc> procs = new HashMap<>();
 
     private List<ObjectNode> children = new ArrayList<>();
 
@@ -50,6 +51,19 @@ public class ObjectNode implements Comparable<ObjectNode>
         {
             if(parent == null) return null;
             return parent.getVar(name);
+        }
+    }
+
+    public Proc getProc(String name)
+    {
+        if(procs.containsKey(name))
+        {
+            return procs.get(name);
+        }
+        else
+        {
+            if(parent == null) return null;
+            return parent.getProc(name);
         }
     }
 
@@ -125,6 +139,11 @@ public class ObjectNode implements Comparable<ObjectNode>
         return Collections.unmodifiableMap(vars);
     }
 
+    public Map<String, Proc> getProcs()
+    {
+        return Collections.unmodifiableMap(procs);
+    }
+
     @Override
     public int compareTo(ObjectNode o)
     {
@@ -134,5 +153,10 @@ public class ObjectNode implements Comparable<ObjectNode>
     public void setDoc(String lastComment)
     {
         this.doc = lastComment;
+    }
+
+    public void addProc(Proc proc)
+    {
+        procs.put(proc.getName(), proc);
     }
 }

@@ -415,11 +415,19 @@ public class ObjectTreeParser
                         }
                         continue;
                     }
-                    if(PROC_PATTERN.matcher(pathSection).matches())
+                    Matcher procMatcher = PROC_PATTERN.matcher(pathSection);
+                    if(procMatcher.matches())
                     {
                         if(lowestProcDepth < 0)
                         {
                             lowestProcDepth = indentDepth;
+                        }
+                        // System.out.println("Proc created: " + procMatcher.group(1) + procMatcher.group(2));
+                        Proc proc = new Proc(procMatcher.group(1), procMatcher.group(2));
+                        tree.getOrCreateObjectNode(fullPathBuilder.toString().trim()).addProc(proc);
+                        if(!isBlank(lastComment))
+                        {
+                            proc.setDoc(lastComment);
                         }
                         // Proc created
                         break;
